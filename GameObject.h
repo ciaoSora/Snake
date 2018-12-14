@@ -20,6 +20,7 @@ protected:
 	D3DXVECTOR2 scale;
 	LPDIRECT3DTEXTURE9 texture;
 	D3DCOLOR color;
+	std::string tag;
 
 public:
 
@@ -32,6 +33,18 @@ public:
 
 	virtual void Update() {
 		
+	}
+
+	virtual void Start() {
+
+	}
+
+	std::string GetTag() {
+		return tag;
+	}
+
+	void SetTag(const std::string newtag) {
+		tag = newtag;
 	}
 };
 

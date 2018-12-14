@@ -7,11 +7,13 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <ctime>
+#include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include "utility.h"
 #include "GameObject.h"
 #include "Snake.h"
+#include "Food.h"
 
 using namespace std;
 
@@ -74,11 +76,21 @@ bool DirectX_Init(HWND hwnd) {
 		return FALSE;
 	}
 
+	srand(timeGetTime());
 
-	gameobjects[0] = new GameObject("white.png");
-	gameobjects[1] = new Snake();
+	gameobjects[0] = new Snake();
+	gameobjects[1] = new Food();
 
 	return TRUE;
+}
+
+// Game ready
+void Game_Ready() {
+	for (int i = 0; i < sizeof gameobjects / sizeof(GameObject*); ++i) {
+		if (gameobjects[i]) {
+			gameobjects[i]->Start();
+		}
+	}
 }
 
 // Game update function
@@ -201,6 +213,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return FALSE;
 	}
 
+	Game_Ready();
 	while (!gameover) {
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);

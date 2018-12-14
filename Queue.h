@@ -35,7 +35,7 @@ public:
 		que = new T[size];
 	}
 
-	int Count() {
+	int Count() const {
 		return ((tail - head) + size) % size;
 	}
 
@@ -61,15 +61,15 @@ public:
 		return true;
 	}
 
-	T GetLeft() {
+	T GetLeft() const {
 		return que[head];
 	}
 
-	T GetRight() {
+	T GetRight() const {
 		return que[((tail - 1) + size) % size];
 	}
 
-	T Get(int idx) {
+	T Get(int idx) const {
 		return que[(head + idx) % size];
 	}
 };

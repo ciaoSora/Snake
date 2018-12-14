@@ -5,6 +5,7 @@
 *****************************************************************************/
 
 #include "utility.h"
+#include "GameObject.h"
 #pragma comment(lib, "winmm.lib")
 
 LPDIRECT3DTEXTURE9 util::LoadTexture(std::string filename, D3DCOLOR transcolor) {
@@ -35,6 +36,7 @@ LPDIRECT3DTEXTURE9 util::LoadTexture(std::string filename, D3DCOLOR transcolor) 
 }
 extern LPD3DXSPRITE pSprite;
 extern std::ofstream fout("log.txt");
+extern GameObject* gameobjects[10];
 
 int util::deltaTime;
 
@@ -61,4 +63,23 @@ bool util::isKeyDown(int vk) {
 
 bool util::hasKeyDowned(int vk) {
 	return ::GetAsyncKeyState(vk) & 1;
+}
+
+int util::randint(int n) {
+	return rand() % n;
+}
+
+int util::randint(int mn, int mx) {
+	return rand() % (mx - mn) + mn;
+}
+
+GameObject * util::FindWithTag(const std::string tag) {
+	for (int i = 0; i < sizeof gameobjects / sizeof(GameObject*); ++i) {
+		if (gameobjects[i]) {
+			if (gameobjects[i]->GetTag() == tag) {
+				return gameobjects[i];
+			}
+		}
+	}
+	return NULL;
 }

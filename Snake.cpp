@@ -1,6 +1,7 @@
 #include "Snake.h"
 #include <string>
 #include "GameBoard.h"
+#include "Food.h"
 
 const int Snake::dirx[4] = { 1, 0, -1, 0 };
 const int Snake::diry[4] = { 0, 1, 0, -1 };
@@ -15,11 +16,17 @@ Snake::Snake() : GameObject("white.png") {
 	for (int i = 0; i < 5; ++i) {
 		body.Push(Coordinate(i, initY));
 	}
+	tag = "Snake";
 }
 
 
 Snake::~Snake() {
 	
+}
+
+void Snake::Start() {
+	GameObject * pGameObject = util::FindWithTag("Food");
+	food = dynamic_cast<Food*>(pGameObject);
 }
 
 D3DXVECTOR2 Snake::c2v(Coordinate c) {

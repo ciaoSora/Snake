@@ -6,13 +6,9 @@
 class GameBoard : public GameObject {
 
 public:
-	static const int Width;
-	static const int Height;
-
+	static const int Width = 40;
+	static const int Height = 30;
 };
-
-const int GameBoard::Width = 40;
-const int GameBoard::Height = 30;
 
 #endif // !GAMEBOARD_H_
 

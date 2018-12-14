@@ -19,6 +19,8 @@
 extern LPDIRECT3DDEVICE9 pDevice;
 extern std::ofstream fout;
 
+class GameObject;
+
 namespace util {
 	const D3DXVECTOR3 ZeroVector3(0.0f, 0.0f, 0.0f);
 	const D3DXVECTOR2 ZeroVector2(0.0f, 0.0f);
@@ -30,6 +32,10 @@ namespace util {
 	
 	bool isKeyDown(int vk);
 	bool hasKeyDowned(int vk);
+	int randint(int n);
+	int randint(int mn, int mx);
+	GameObject* FindWithTag(const std::string tag);
+
 }
 
 #endif // !UTILITY_H_

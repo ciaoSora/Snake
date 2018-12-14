@@ -5,6 +5,8 @@
 #include "GameObject.h"
 #include "Queue.h"
 
+class Food;
+
 struct Coordinate {
 	int x, y;
 	Coordinate(int x_ = 0, int y_ = 0) {
@@ -21,18 +23,24 @@ class Snake : public GameObject {
 	void DrawAuxiliary(D3DXVECTOR2 pos, int dir);
 	int RelativeDirection(Coordinate c1, Coordinate c2);
 	void Move();
+	Food * food;
 
 	static const int dirx[4];
 	static const int diry[4];
-	static const float CELL_WIDTH;
-	static const float BODY_WIDTH;
 	static const int SLEEP_TIME;
 
 public:
+	static const float CELL_WIDTH;
+	static const float BODY_WIDTH;
 	Snake();
 	virtual ~Snake();
 	void Draw();
 	void Update();
+	void Start();
+
+	Queue<Coordinate>* GetBodyPointer() {
+		return &body;
+	}
 
 };
 
