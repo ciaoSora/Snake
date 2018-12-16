@@ -15,14 +15,14 @@ class GameObject {
 
 protected:
 
-	D3DXVECTOR2 position;
-	float rotation;
-	D3DXVECTOR2 scale;
 	LPDIRECT3DTEXTURE9 texture;
 	D3DCOLOR color;
 	std::string tag;
 
 public:
+	D3DXVECTOR2 position;
+	float rotation;
+	D3DXVECTOR2 scale;
 
 	GameObject(const std::string pictureName);
 	virtual ~GameObject() {

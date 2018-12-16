@@ -35,6 +35,7 @@ namespace util {
 	int randint(int n);
 	int randint(int mn, int mx);
 	GameObject* FindWithTag(const std::string tag);
+	void GameOver(const std::string prompt);
 
 }
 

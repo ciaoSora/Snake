@@ -107,7 +107,7 @@ void Game_Run(HWND hwnd) {
 		}
 	}
 
-	pDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 255, 255), 1.0f, 0);
+	pDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(247, 238, 214), 1.0f, 0);
 
 	if (pDevice->BeginScene()) {
 		pSprite->Begin(D3DXSPRITE_ALPHABLEND);

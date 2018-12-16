@@ -19,11 +19,13 @@ class Snake : public GameObject {
 
 	Queue<Coordinate> body;
 	int direction;
+	Food * food;
+
 	D3DXVECTOR2 c2v(Coordinate c);
 	void DrawAuxiliary(D3DXVECTOR2 pos, int dir);
 	int RelativeDirection(Coordinate c1, Coordinate c2);
 	void Move();
-	Food * food;
+	void UpdateColor();
 
 	static const int dirx[4];
 	static const int diry[4];

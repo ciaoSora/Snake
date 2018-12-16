@@ -37,6 +37,7 @@ LPDIRECT3DTEXTURE9 util::LoadTexture(std::string filename, D3DCOLOR transcolor) 
 extern LPD3DXSPRITE pSprite;
 extern std::ofstream fout("log.txt");
 extern GameObject* gameobjects[10];
+extern bool gameover;
 
 int util::deltaTime;
 
@@ -82,4 +83,9 @@ GameObject * util::FindWithTag(const std::string tag) {
 		}
 	}
 	return NULL;
+}
+
+void util::GameOver(const std::string prompt) {
+	gameover = true;
+	::MessageBox(0, prompt.c_str(), "Game Over", 0);
 }

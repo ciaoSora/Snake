@@ -17,6 +17,7 @@ Snake::Snake() : GameObject("white.png") {
 		body.Push(Coordinate(i, initY));
 	}
 	tag = "Snake";
+	color = D3DCOLOR_XRGB(255, 0, 0);
 }
 
 
@@ -65,18 +66,72 @@ void Snake::Draw() {
 		util::DrawSprite(texture, pos, 0, sca, color);
 	}
 
-	/*c1 = body.GetLeft();
+	c1 = body.GetLeft();
 	c2 = body.Get(1);
-	d1 = RelativeDirection(c1, c2);
+	d2 = RelativeDirection(c1, c2);
+	d1 = d2 ^ 2;
+	pos = c2v(c1) + deltaPos;
+	DrawAuxiliary(pos, d1);
+	DrawAuxiliary(pos, d2);
 	for (int i = 1; i < len - 1; ++i) {
-		
+		c1 = body.Get(i);
+		pos = c2v(c1) + deltaPos;
+
+		c2 = body.Get(i - 1);
+		d1 = RelativeDirection(c1, c2);
+		DrawAuxiliary(pos, d1);
+		c2 = body.Get(i + 1);
+		d2 = RelativeDirection(c1, c2);
+		DrawAuxiliary(pos, d2);
 	}
-	c1 = body.GetRight();*/
+	c1 = body.GetRight();
+	c2 = body.Get(len - 2);
+	d1 = RelativeDirection(c1, c2);
+	d2 = d1 ^ 2;
+	pos = c2v(c1) + deltaPos;
+	DrawAuxiliary(pos, d1);
+	DrawAuxiliary(pos, d2);
+}
+
+void Snake::UpdateColor() {
+	static const float speed = 0.1;
+	static float r = 255.0f, g = 0.0f, b = 0.0f;
+
+	float delta = util::deltaTime * speed;
+	if (r == 255.0f && g < 255.0f) {
+		if (b > 0.0f) {
+			b = max(0.0f, b - delta);
+		}
+		else {
+			g = min(255.0f, g + delta);
+		}
+	}
+	else if (g == 255.0f && b < 255.0f) {
+		if (r > 0.0f) {
+			r = max(0.0f, r - delta);
+		}
+		else {
+			b = min(255.0f, b + delta);
+		}
+	}
+	else {
+		if (g > 0.0f) {
+			g = max(0.0f, g - delta);
+		}
+		else {
+			r = min(255.0f, r + delta);
+		}
+	}
+
+	color = D3DCOLOR_XRGB((int)r, (int)g, (int)b);
 	
 }
 
 void Snake::Update() {
+	UpdateColor();
+
 	static int acc = 0;
+	static int ready_dir = 0;
 
 	int new_dir = -1;
 	if (util::hasKeyDowned(VK_RIGHT) || util::hasKeyDowned('D')) {
@@ -94,7 +149,7 @@ void Snake::Update() {
 
 	if (new_dir != -1) {
 		if ((new_dir ^ direction) & 1) {
-			direction = new_dir;
+			ready_dir = new_dir;
 		}
 	}
 
@@ -102,12 +157,36 @@ void Snake::Update() {
 	if (acc < SLEEP_TIME) {
 		return;
 	}
+	direction = ready_dir;
 	acc = 0;
 	Move();
 }
 
 void Snake::Move() {
-	body.Pop();
-	Coordinate c = body.GetRight();
-	body.Push(Coordinate(c.x + dirx[direction], c.y + diry[direction]));
+	Coordinate c1 = body.GetRight();
+	c1.x += dirx[direction];
+	c1.y += diry[direction];
+	int foodX = (int)food->position.x / (int)CELL_WIDTH;
+	int foodY = (int)food->position.y / (int)CELL_WIDTH;
+	if (c1.x != foodX || c1.y != foodY) {
+		body.Pop();
+	}
+
+	if (c1.x < 0 || c1.x >= GameBoard::Width || c1.y < 0 || c1.y >= GameBoard::Height) {
+		util::GameOver("Watch your way!");
+	}
+
+	int len = body.Count();
+	Coordinate c2;
+	for (int i = 0; i < len - 1; ++i) {
+		c2 = body.Get(i);
+		if (c1.x == c2.x && c1.y == c2.y) {
+			util::GameOver("You eat yourself!");
+			break;
+		}
+	}
+
+	body.Push(c1);
+
+	
 }
